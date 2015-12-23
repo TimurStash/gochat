@@ -1,0 +1,11 @@
+development:
+    dialect: mysql
+    datasource: root:killmenot@tcp(localhost:3306)/gochat?parseTime=true
+    dir: .
+    table: migrations
+
+production:
+    dialect: mysql
+    datasource: root:killmenot@tcp(localhost:3306)/gochat?parseTime=true
+    dir: migrations
+    table: migrations

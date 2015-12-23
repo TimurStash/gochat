@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<div style="width:500px; height:200px; border:1px solid #000">
+<!--<form action="http://localhost:5000/token-auth" method="post">-->
+    <div>Username <input id="username" name="username" type="text"/></div>
+    <div>Password <input id="password" name="password" type="password"/></div>
+    <button id="login">Login</button>
+    <button id="logout">Logout</button>
+    <!--<input type="submit" value="Login" />-->
+<!--</form>-->
+</div>
+<script>
+    var token = "";
+    $("#login").click(function(){
+        $.ajax({
+          type: "POST",
+          url: "http://localhost:5000/token-auth",
+          data: JSON.stringify({
+            username: $("#username").val(),
+            password: $("#password").val()
+          }),
+          success: function(o){
+            token = o.token
+            console.log(arguments)
+          },
+          error: function(){
+            console.log(arguments)
+          },
+
+          contentType: 'application/json; charset=utf-8'
+        });
+    });
+
+    $("#logout").click(function(){
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:5000/logout",
+          headers: {
+            "Authorization" : "BEARER" + token
+          },
+          success: function(){
+            console.log(arguments)
+          },
+          error: function(){
+            console.log(arguments)
+          },
+          contentType: 'application/json; charset=utf-8'
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "PrivateKeyPath": "/home/timur/goprojects/src/github.com/TimurStash/gochat/settings/keys/private_key",
+  "PublicKeyPath": "/home/timur/goprojects/src/github.com/TimurStash/gochat/settings/keys/public_key.pub",
+  "JWTExpirationDelta": 72
+}
