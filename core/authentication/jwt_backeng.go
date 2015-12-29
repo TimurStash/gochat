@@ -1,16 +1,15 @@
 package authentication
 
 import (
-	"github.com/TimurStash/gochat/core/redis"
 	"github.com/TimurStash/gochat/services/models"
 	"github.com/TimurStash/gochat/settings"
+	"github.com/TimurStash/gochat/core/mysql"
 	"bufio"
-	"code.google.com/p/go-uuid/uuid"
+//	"code.google.com/p/go-uuid/uuid"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
-	jwt "github.com/dgrijalva/jwt-go"
-	"golang.org/x/crypto/bcrypt"
+	jwt "github.com/TimurStash/jwt-go"
 	"os"
 	"time"
 	"fmt"
@@ -39,11 +38,11 @@ func InitJWTAuthenticationBackend() *JWTAuthenticationBackend {
 	return authBackendInstance
 }
 
-func (backend *JWTAuthenticationBackend) GenerateToken(userUUID string) (string, error) {
+func (backend *JWTAuthenticationBackend) GenerateToken(usierId uint) (string, error) {
 	token := jwt.New(jwt.SigningMethodRS512)
 	token.Claims["exp"] = time.Now().Add(time.Hour * time.Duration(settings.Get().JWTExpirationDelta)).Unix()
 	token.Claims["iat"] = time.Now().Unix()
-	token.Claims["sub"] = userUUID
+	token.Claims["sub"] = usierId
 	tokenString, err := token.SignedString(backend.privateKey)
 	if err != nil {
 		panic(err)
@@ -52,18 +51,6 @@ func (backend *JWTAuthenticationBackend) GenerateToken(userUUID string) (string,
 	return tokenString, nil
 }
 
-func (backend *JWTAuthenticationBackend) Authenticate(user *models.User) bool {
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte("testing"), 10)
-
-	testUser := models.User{
-		UUID:     uuid.New(),
-		Username: "haku",
-		Password: string(hashedPassword),
-	}
-
-	fmt.Printf("%+v\n", testUser)
-	return user.Username == testUser.Username && bcrypt.CompareHashAndPassword([]byte(testUser.Password), []byte(user.Password)) == nil
-}
 
 func (backend *JWTAuthenticationBackend) getTokenRemainingValidity(timestamp interface{}) int {
 	if validity, ok := timestamp.(float64); ok {
@@ -76,20 +63,20 @@ func (backend *JWTAuthenticationBackend) getTokenRemainingValidity(timestamp int
 	return expireOffset
 }
 
-func (backend *JWTAuthenticationBackend) Logout(tokenString string, token *jwt.Token) error {
-	redisConn := redis.Connect()
-	return redisConn.SetValue(tokenString, tokenString, backend.getTokenRemainingValidity(token.Claims["exp"]))
+func (backend *JWTAuthenticationBackend) BlacklistToken(tokenString string) {
+	t := models.Token{Token:tokenString}
+	mysql.DB.Create(&t)
 }
 
 func (backend *JWTAuthenticationBackend) IsInBlacklist(token string) bool {
-	redisConn := redis.Connect()
-	redisToken, _ := redisConn.GetValue(token)
-
-	if redisToken == nil {
-		return false
+	tokenObj := new(models.Token)
+	mysql.DB.Where("token = ?", token).First(&tokenObj)
+	fmt.Printf("%+v\n", tokenObj)
+	if tokenObj.Id > 0  {
+		return true
 	}
 
-	return true
+	return false
 }
 
 func getPrivateKey() *rsa.PrivateKey {

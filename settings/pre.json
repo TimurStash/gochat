@@ -2,9 +2,9 @@
   "PrivateKeyPath": "/home/timur/goprojects/src/github.com/TimurStash/gochat/settings/keys/private_key",
   "PublicKeyPath": "/home/timur/goprojects/src/github.com/TimurStash/gochat/settings/keys/public_key.pub",
   "JWTExpirationDelta": 72,
-  "mysqlHost": "127.0.0.1",
-  "mysqlPort": "3306",
-  "mysqlUsername": "root",
-  "mysqlPassword": "killmenot",
-  "mysqlDbname": "gochat"
+  "MysqlHost": "127.0.0.1",
+  "MysqlPort": "3306",
+  "MysqlUsername": "root",
+  "MysqlPassword": "killmenot",
+  "MysqlDbname": "gochat"
 }

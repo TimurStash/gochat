@@ -5,11 +5,12 @@ import (
 	"github.com/codegangsta/negroni"
 	"net/http"
 	"github.com/rs/cors"
-	"github.com/TimurStash/gochat/core/mysql"
+	"github.com/TimurStash/gochat/socket"
 )
 
 
 func main() {
+	go socket.RunHub()
 	settings.Init()
 	router := routers.InitRoutes()
 	n := negroni.Classic()
