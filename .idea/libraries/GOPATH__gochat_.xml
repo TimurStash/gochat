@@ -35,6 +35,7 @@
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/net/http2/testdata" />
       <root url="file://$PROJECT_DIR$/../../dgrijalva/jwt-go/.git" />
       <root url="file://$PROJECT_DIR$/../../brainattica/golang-jwt-authentication-api-sample/.git" />
+      <root url="file://$PROJECT_DIR$/../../gorilla/websocket/.git" />
       <root url="file://$PROJECT_DIR$/../../jinzhu/gorm/.git" />
       <root url="file://$PROJECT_DIR$/../../brainattica/golang-jwt-authentication-api-sample/.idea" />
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/net/.git" />
@@ -42,6 +43,7 @@
       <root url="file://$PROJECT_DIR$/../../codegangsta/negroni/.git" />
       <root url="file://$PROJECT_DIR$/../../mattn/go-sqlite3/_example" />
       <root url="file://$PROJECT_DIR$/../../rubenv/sql-migrate/.git" />
+      <root url="file://$PROJECT_DIR$/../jwt-go/.git" />
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/crypto/sha3/testdata" />
       <root url="file://$PROJECT_DIR$/../../../gopkg.in/yaml.v1/.git" />
     </excluded>
