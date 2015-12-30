@@ -4,7 +4,7 @@ import (
 //	"github.com/TimurStash/gochat/api/parameters"
 	"github.com/TimurStash/gochat/core/authentication"
 //	"encoding/json"
-	jwt "github.com/dgrijalva/jwt-go"
+	jwt "github.com/TimurStash/jwt-go"
 	"net/http"
 	"fmt"
 	"errors"
